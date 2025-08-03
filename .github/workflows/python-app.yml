@@ -10,10 +10,10 @@ jobs:
     runs-on: macos-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
     
@@ -21,7 +21,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller pandas customtkinter fuzzywuzzy python-Levenshtein openpyxl
-        brew install python-tk  # Necesario para Tkinter en macOS
+        brew install python-tk
     
     - name: Verify files
       run: |
@@ -38,7 +38,7 @@ jobs:
           --name Silverlinks \
           Silverlink_1.0.py
         
-    - name: Create DMG (macOS package)
+    - name: Create DMG
       run: |
         brew install create-dmg
         mkdir -p dist/dmg
@@ -55,7 +55,7 @@ jobs:
           "dist/dmg/"
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Silverlinks-Build
         path: |
