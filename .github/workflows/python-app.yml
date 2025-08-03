@@ -1,9 +1,6 @@
 name: Build macOS App
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 jobs:
   build:
@@ -23,11 +20,12 @@ jobs:
         pip install pyinstaller pandas customtkinter fuzzywuzzy python-Levenshtein openpyxl
         brew install python-tk
     
-    - name: Verify files
+    - name: Verify folder structure
       run: |
+        echo "Verificando estructura de carpetas:"
         ls -la
-        echo "Archivos en el repositorio:"
-        find . -type f
+        ls -la Armadas/
+        ls -la Compuestos/
         
     - name: Build application
       run: |
@@ -35,6 +33,8 @@ jobs:
           --add-data "buscadorb.xlsx:." \
           --add-data "desglose_productos.xlsx:." \
           --add-data "DatosPrograma.txt:." \
+          --add-data "Armadas/*:Armadas" \
+          --add-data "Compuestos/*:Compuestos" \
           --name Silverlinks \
           Silverlink_1.0.py
         
@@ -61,4 +61,3 @@ jobs:
         path: |
           dist/Silverlinks.app
           dist/Silverlinks.dmg
-          dist/Silverlinks
