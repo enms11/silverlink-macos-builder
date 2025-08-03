@@ -21,15 +21,44 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller pandas customtkinter fuzzywuzzy python-Levenshtein openpyxl
+        brew install python-tk  # Necesario para Tkinter en macOS
     
+    - name: Verify files
+      run: |
+        ls -la
+        echo "Archivos en el repositorio:"
+        find . -type f
+        
     - name: Build application
       run: |
-        pyinstaller --onefile --windowed --add-data "buscadorb.xlsx:." --add-data "desglose_productos.xlsx:." --add-data "DatosPrograma.txt:." tu_script.py -n Silverlinks
+        pyinstaller --onefile --windowed \
+          --add-data "buscadorb.xlsx:." \
+          --add-data "desglose_productos.xlsx:." \
+          --add-data "DatosPrograma.txt:." \
+          --name Silverlinks \
+          Silverlink_1.0.py
         
-    - name: Upload artifact
+    - name: Create DMG (macOS package)
+      run: |
+        brew install create-dmg
+        mkdir -p dist/dmg
+        cp -r dist/Silverlinks.app dist/dmg/
+        create-dmg \
+          --volname "Silverlinks" \
+          --window-pos 200 120 \
+          --window-size 800 400 \
+          --icon-size 100 \
+          --icon "Silverlinks.app" 200 190 \
+          --hide-extension "Silverlinks.app" \
+          --app-drop-link 600 185 \
+          "dist/Silverlinks.dmg" \
+          "dist/dmg/"
+    
+    - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: Silverlinks-macOS
+        name: Silverlinks-Build
         path: |
           dist/Silverlinks.app
+          dist/Silverlinks.dmg
           dist/Silverlinks
