@@ -1,0 +1,5 @@
+* No considera montos exportados por oficiales reales. [Estos no aparecen en la variable "Nombre"]
+* No considera montos no declarados por los comerciantes por diversos motivos. [Cuando un comerciante exporta bienes que no pagan impuesto (por ser de procedencia eclesiástica o por ser personales) no consignan un monto en la variable "Valor específico"]
+* No se desglosa la información de productos en las armadas de 1665 [1664] y 1672 por falta de datos desagregados.
+* No se posee fuentes para las armadas de 1667 y 1721.
+* No considera el monto total del año 1708, sino la cuenta alternativa de H3-789 con un total menor, pero mayor información de los consignatarios. Dicha cuenta posee una falta de 9.000 pesos.
