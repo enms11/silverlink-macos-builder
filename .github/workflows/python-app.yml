@@ -1,0 +1,35 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pandas customtkinter fuzzywuzzy python-Levenshtein openpyxl
+    
+    - name: Build application
+      run: |
+        pyinstaller --onefile --windowed --add-data "buscadorb.xlsx:." --add-data "desglose_productos.xlsx:." --add-data "DatosPrograma.txt:." tu_script.py -n Silverlinks
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Silverlinks-macOS
+        path: |
+          dist/Silverlinks.app
+          dist/Silverlinks
